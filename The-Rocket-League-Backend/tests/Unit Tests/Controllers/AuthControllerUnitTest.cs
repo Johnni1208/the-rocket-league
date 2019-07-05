@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using The_Rocket_League_Backend.Controllers;
 using The_Rocket_League_Backend.Data;
@@ -44,7 +45,7 @@ namespace Tests.Unit_Tests.Controllers{
         }
 
         [Fact]
-        public async Task Login_ReturnsUnauthorized_WhenUserDoesNotExist(){
+        public async Task Login_ReturnsUnauthorized_WhenUserCannotLogin(){
             authRepo.Setup(repo => repo.Login(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync((User) null);
             var controller = new AuthController(authRepo.Object);
@@ -55,7 +56,7 @@ namespace Tests.Unit_Tests.Controllers{
         }
 
         [Fact]
-        public async Task Login_ReturnsOk_WhenUserDoesExist(){
+        public async Task Login_ReturnsOk_WhenUserCanLogin(){
             authRepo.Setup(repo => repo.Login(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(new User());
             var controller = new AuthController(authRepo.Object);
