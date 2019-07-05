@@ -29,5 +29,16 @@ namespace The_Rocket_League_Backend.Controllers{
 
             return StatusCode(201);
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserForLoginDto userForLoginDto){
+            var user = await repo.Login(userForLoginDto.Username.Trim().ToLower(), userForLoginDto.Password);
+
+            if (user == null){
+                return Unauthorized();
+            }
+
+            return Ok();
+        }
     }
 }
