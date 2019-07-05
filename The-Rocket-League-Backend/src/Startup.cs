@@ -18,6 +18,7 @@ namespace The_Rocket_League_Backend{
         public void ConfigureDevelopmentServices(IServiceCollection services){
             services.AddDbContext<DataContext>(x =>
                 x.UseSqlite(Configuration.GetConnectionString("DefaultConnectionString")));
+            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
