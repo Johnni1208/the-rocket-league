@@ -1,4 +1,3 @@
-using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,8 +42,30 @@ namespace The_Rocket_League_Backend.Data{
             }
         }
 
-        public Task<User> Login(User user, string password){
-            throw new NotImplementedException();
+        public async Task<User> Login(string username, string password){
+            var userToLogin = await context.Users.FirstOrDefaultAsync(u => u.Username == username);
+
+            if (userToLogin == null){
+                return null;
+            }
+
+            if (!VerifyPasswordHash(password, userToLogin.PasswordHash, userToLogin.PasswordSalt)){
+                return null;
+            }
+
+            return userToLogin;
+        }
+
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt){
+            using (var hmac = new HMACSHA512(passwordSalt)){
+                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                for (var i = 0; i < computedHash.Length; i++){
+                    if (computedHash[i] != passwordHash[i]) return false;
+                }
+
+                return true;
+            }
         }
     }
 }
