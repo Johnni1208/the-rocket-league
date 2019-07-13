@@ -1,5 +1,7 @@
 @import "~bootstrap/scss/bootstrap-reboot";
 @import "~bootstrap/scss/bootstrap";
+@import "~alertifyjs/build/css/alertify.min.css";
+@import "~alertifyjs/build/css/themes/bootstrap.min.css";
 @import "app/CSS/mixins";
 
 body {
@@ -46,5 +48,9 @@ body {
     background: #a40f0f;
     border: 2px solid #fff;
     border-radius: 25px;
+
+    &:active{
+      transform: scale(0.9);
+    }
   }
 }
