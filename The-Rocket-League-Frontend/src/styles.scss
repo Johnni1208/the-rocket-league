@@ -1,11 +1,16 @@
+@import "~bootstrap/scss/bootstrap-reboot";
+@import "~bootstrap/scss/bootstrap";
+@import "app/CSS/mixins";
+
 body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-
-  background: linear-gradient(180deg, #bb112d, #a40f27, #a42b0f, #a40f0f);
+  line-height: 1.5;
+  font-family: Roboto, sans-serif;
+  background: linear-gradient(180deg, #bb112d, #a40f27, #a40f0f, #B74D4D);
   background-size: 800% 800%;
-  animation: backgroundAnimation 30s ease infinite;
+  animation: backgroundAnimation 15s ease infinite;
 }
 
 @keyframes backgroundAnimation {
@@ -19,5 +24,27 @@ body {
 
   100%{
     background-position: 11% 0;
+  }
+}
+
+.rocket-form{
+  input{
+    width: 80%;
+    height: 50px;
+    font-size: 1.2rem;
+    padding: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.11);
+    border-radius: 5px;
+  }
+
+  button{
+    @include DropShadow;
+    font-size: 1.5rem;
+    color: #fff;
+    font-weight: bold;
+    padding: .5rem 1rem;
+    background: #a40f0f;
+    border: 2px solid #fff;
+    border-radius: 25px;
   }
 }
