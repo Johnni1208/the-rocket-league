@@ -22,8 +22,13 @@ namespace Tests.Unit_Tests.Controllers{
             Password = "test123"
         };
 
+        private readonly User mockUserForToken = new User{
+            Id = 1,
+            Username = "test"
+        };
+
         private readonly Mock<IAuthRepository> authRepo = new Mock<IAuthRepository>();
-        private readonly Mock<IConfiguration> config = new Mock<IConfiguration>();
+        private Mock<IConfiguration> config = new Mock<IConfiguration>();
 
         [Fact]
         public async Task Register_ReturnsBadRequest_WhenUserExists(){
@@ -61,10 +66,7 @@ namespace Tests.Unit_Tests.Controllers{
         [Fact]
         public async Task Login_ReturnsOk_WhenUserCanLogin(){
             authRepo.Setup(repo => repo.Login(It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync(new User{
-                    Id = 1,
-                    Username = "test"
-                });
+                .ReturnsAsync(mockUserForToken);
 
             config.Setup(config => config.GetSection(It.IsAny<string>()).Value)
                 .Returns("therocketleague12082002");
@@ -81,10 +83,7 @@ namespace Tests.Unit_Tests.Controllers{
             var tokenHandler = new JwtSecurityTokenHandler();
 
             authRepo.Setup(repo => repo.Login(It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync(new User{
-                    Id = 1,
-                    Username = "test"
-                });
+                .ReturnsAsync(mockUserForToken);
 
             config.Setup(config => config.GetSection(It.IsAny<string>()).Value)
                 .Returns("therocketleague12082002");
@@ -93,7 +92,7 @@ namespace Tests.Unit_Tests.Controllers{
 
             var result = await controller.Login(mockUserForLoginDto);
 
-            var securityToken = TokenHelper.CreateToken(config.Object, 1, "test");
+            var securityToken = TokenHelper.CreateToken(config.Object, mockUserForToken.Id, mockUserForToken.Username);
 
             var writtenToken = new{
                 token = tokenHandler.WriteToken(securityToken)
