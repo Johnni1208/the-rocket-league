@@ -1,11 +1,20 @@
+@import "~bootstrap/scss/bootstrap-reboot";
+@import "~bootstrap/scss/bootstrap";
+@import "~alertifyjs/build/css/alertify.min.css";
+@import "~alertifyjs/build/css/themes/bootstrap.min.css";
+@import "app/CSS/mixins";
+@import "app/CSS/colors";
+@import "app/CSS/bootstrap-changes";
+
 body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-
-  background: linear-gradient(180deg, #bb112d, #a40f27, #a42b0f, #a40f0f);
+  line-height: 1.5;
+  font-family: Roboto, sans-serif;
+  background: linear-gradient(180deg, #bb112d, #a40f27, #a40f0f, #B74D4D);
   background-size: 800% 800%;
-  animation: backgroundAnimation 30s ease infinite;
+  animation: backgroundAnimation 15s ease infinite;
 }
 
 @keyframes backgroundAnimation {
@@ -19,5 +28,43 @@ body {
 
   100%{
     background-position: 11% 0;
+  }
+}
+
+.rocket-form{
+  input{
+    color: #fff;
+    width: 80%;
+    height: 50px;
+    font-size: 1.2rem;
+    padding: 1rem;
+    border: none;
+    border-radius: 25px;
+    background-color: rgba(255,255,255,.25);
+
+    &::placeholder{
+     color: rgba(255,255,255,.5);
+    }
+  }
+
+  button{
+    @include DropShadow;
+    width: 80%;
+    font-size: 1.5rem;
+    color: $main-text-color;
+    font-weight: bold;
+    padding: .5rem 1rem;
+    background: #fff;
+    border: 2px solid #fff;
+    border-radius: 25px;
+    transition: filter .5s ease-in-out;
+
+    &:active{
+      transform: scale(0.9);
+    }
+
+    &:disabled{
+      filter: blur(2px);
+    }
   }
 }
