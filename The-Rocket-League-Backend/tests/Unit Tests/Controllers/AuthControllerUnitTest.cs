@@ -12,18 +12,18 @@ using Xunit;
 
 namespace Tests.Unit_Tests.Controllers{
     public class AuthControllerUnitTest{
-        private UserForRegisterDto mockUserForRegisterDto = new UserForRegisterDto{
+        private readonly UserForRegisterDto mockUserForRegisterDto = new UserForRegisterDto{
             Username = "John",
             Password = "test123"
         };
 
-        private UserForLoginDto mockUserForLoginDto = new UserForLoginDto{
+        private readonly UserForLoginDto mockUserForLoginDto = new UserForLoginDto{
             Username = "John",
             Password = "test123"
         };
 
-        private Mock<IAuthRepository> authRepo = new Mock<IAuthRepository>();
-        private Mock<IConfiguration> config = new Mock<IConfiguration>();
+        private readonly Mock<IAuthRepository> authRepo = new Mock<IAuthRepository>();
+        private readonly Mock<IConfiguration> config = new Mock<IConfiguration>();
 
         [Fact]
         public async Task Register_ReturnsBadRequest_WhenUserExists(){

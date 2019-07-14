@@ -1,11 +1,7 @@
-using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using The_Rocket_League_Backend.Data;
 using The_Rocket_League_Backend.Dtos;
 using The_Rocket_League_Backend.Helpers;
