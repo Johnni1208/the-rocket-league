@@ -1,18 +1,26 @@
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using The_Rocket_League_Backend.Data;
 using The_Rocket_League_Backend.Dtos;
+using The_Rocket_League_Backend.Helpers;
 using The_Rocket_League_Backend.Models;
 
 namespace The_Rocket_League_Backend.Controllers{
-
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController: ControllerBase{
+    public class AuthController : ControllerBase{
         private readonly IAuthRepository repo;
+        private readonly IConfiguration config;
 
-        public AuthController(IAuthRepository repo){
+        public AuthController(IAuthRepository repo, IConfiguration config){
             this.repo = repo;
+            this.config = config;
         }
 
         [HttpPost("register")]
@@ -32,13 +40,19 @@ namespace The_Rocket_League_Backend.Controllers{
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto){
-            var user = await repo.Login(userForLoginDto.Username.Trim().ToLower(), userForLoginDto.Password);
+            var userFromRepo = await repo.Login(userForLoginDto.Username.Trim().ToLower(), userForLoginDto.Password);
 
-            if (user == null){
+            if (userFromRepo == null){
                 return Unauthorized();
             }
 
-            return Ok();
+            var token = TokenHelper.CreateToken(config, userFromRepo.Id, userFromRepo.Username);
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            return Ok(new{
+                token = tokenHandler.WriteToken(token)
+            });
         }
     }
 }
