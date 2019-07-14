@@ -1,5 +1,6 @@
 <div class="container">
   <div class="row mt-5 pt-5">
+    
     <div class="col-12 d-flex justify-content-center">
       <img src="/assets/images/logo-with-text.svg" alt="The Rocket League Logo" class="logo">
     </div>
@@ -19,7 +20,7 @@
       </div>
       
       <div class="col-12 mt-3 form-group text-center">
-        <button type="submit">Login</button>
+        <button type="submit" [disabled]="!loginForm.valid || isLoading">Login</button>
       </div>
     </div>
   </form>

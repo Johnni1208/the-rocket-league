@@ -11,6 +11,7 @@ import { AlertifyService } from '../../Services/alertify/alertify.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  isLoading = false;
 
   constructor(private fb: FormBuilder,
               private authService: AuthService,
@@ -31,10 +32,14 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const user: User = Object.assign({}, this.loginForm.value);
 
+      this.isLoading = true;
+
       this.authService.login(user).subscribe(() => {
         this.alertify.success('Login successfully');
       }, error => {
         this.alertify.error('Es konnte nicht eingeloggt werden.');
+      }, () => {
+        this.isLoading = false;
       });
     }
   }

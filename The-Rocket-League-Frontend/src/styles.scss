@@ -3,6 +3,8 @@
 @import "~alertifyjs/build/css/alertify.min.css";
 @import "~alertifyjs/build/css/themes/bootstrap.min.css";
 @import "app/CSS/mixins";
+@import "app/CSS/colors";
+@import "app/CSS/bootstrap-changes";
 
 body {
   width: 100vw;
@@ -31,26 +33,38 @@ body {
 
 .rocket-form{
   input{
+    color: #fff;
     width: 80%;
     height: 50px;
     font-size: 1.2rem;
     padding: 1rem;
-    border: 1px solid rgba(0, 0, 0, 0.11);
-    border-radius: 5px;
+    border: none;
+    border-radius: 25px;
+    background-color: rgba(255,255,255,.25);
+
+    &::placeholder{
+     color: rgba(255,255,255,.5);
+    }
   }
 
   button{
     @include DropShadow;
+    width: 80%;
     font-size: 1.5rem;
-    color: #fff;
+    color: $main-text-color;
     font-weight: bold;
     padding: .5rem 1rem;
-    background: #a40f0f;
+    background: #fff;
     border: 2px solid #fff;
     border-radius: 25px;
+    transition: filter .5s ease-in-out;
 
     &:active{
       transform: scale(0.9);
+    }
+
+    &:disabled{
+      filter: blur(2px);
     }
   }
 }

@@ -1,0 +1,33 @@
+<div class="container vh-100 d-flex align-items-center">
+  <form [formGroup]="registerForm" (ngSubmit)="register()" class="rocket-form mt-5">
+    <div class="row">
+      <div class="col-12 form-group text-center">
+        <input type="text"
+               formControlName="gamePin"
+               placeholder="Game PIN">
+      </div>
+      
+      <div class="col-12 form-group text-center">
+        <input type="text"
+               formControlName="username"
+               placeholder="Benutzername">
+      </div>
+      
+      <div class="col-12 form-group text-center">
+        <input type="password"
+               formControlName="password"
+               placeholder="Passwort">
+      </div>
+      
+      <div class="col-12 mt-3 form-group text-center">
+        <button type="submit" [disabled]="!registerForm.valid || isLoading">Registrieren</button>
+      </div>
+  
+      <div class="col-12 pt-2 text-center">
+        <a [routerLink]="['/login']" class="text-white py-3 px-3">
+          Du hast schon einen Acc?
+        </a>
+      </div>
+    </div>
+  </form>
+</div>
