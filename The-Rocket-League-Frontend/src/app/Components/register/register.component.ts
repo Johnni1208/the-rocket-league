@@ -10,7 +10,7 @@ import { User } from '../../Models/user';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  private registerForm: FormGroup;
+  registerForm: FormGroup;
   isLoading = false;
 
 
