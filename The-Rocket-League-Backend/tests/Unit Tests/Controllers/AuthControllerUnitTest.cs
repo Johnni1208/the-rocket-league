@@ -92,7 +92,7 @@ namespace Tests.Unit_Tests.Controllers{
 
             var result = await controller.Login(mockUserForLoginDto);
 
-            var securityToken = TokenHelper.CreateToken(config.Object, mockUserForToken.Id, mockUserForToken.Username);
+            var securityToken = TokenHelper.CreateWritableToken(config.Object, mockUserForToken.Id, mockUserForToken.Username);
 
             var writtenToken = new{
                 token = tokenHandler.WriteToken(securityToken)

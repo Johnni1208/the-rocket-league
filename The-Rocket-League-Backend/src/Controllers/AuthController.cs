@@ -42,7 +42,7 @@ namespace The_Rocket_League_Backend.Controllers{
                 return Unauthorized();
             }
 
-            var token = TokenHelper.CreateToken(config, userFromRepo.Id, userFromRepo.Username);
+            var token = TokenHelper.CreateWritableToken(config, userFromRepo.Id, userFromRepo.Username);
 
             var tokenHandler = new JwtSecurityTokenHandler();
 
