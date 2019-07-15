@@ -7,7 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace The_Rocket_League_Backend.Helpers{
     public static class TokenHelper{
-        public static SecurityToken CreateToken(IConfiguration config, int userId, string username){
+        public static SecurityToken CreateWritableToken(IConfiguration config, int userId, string username){
             var claims = new[]{
                 new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
                 new Claim(ClaimTypes.Name, username)
