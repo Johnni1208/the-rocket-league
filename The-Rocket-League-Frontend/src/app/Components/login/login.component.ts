@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../Services/auth/auth.service';
 import { User } from '../../Models/user';
 import { AlertifyService } from '../../Services/alertify/alertify.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private authService: AuthService,
-              private alertify: AlertifyService) { }
+              private alertify: AlertifyService,
+              private router: Router) { }
 
   ngOnInit() {
     this.createLoginForm();
@@ -35,9 +37,10 @@ export class LoginComponent implements OnInit {
       this.isLoading = true;
 
       this.authService.login(user).subscribe(() => {
-        this.alertify.success('Login successfully');
+        this.router.navigate(['']);
       }, error => {
         this.alertify.error('Es konnte nicht eingeloggt werden.');
+        this.isLoading = false;
       }, () => {
         this.isLoading = false;
       });
