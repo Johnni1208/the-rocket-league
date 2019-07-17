@@ -8,6 +8,7 @@ export const environment = {
   testToken: 'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9' +
     '.eyJuYW1laWQiOiI3IiwidW5pcXVlX25hbWUiOiJmcmFueiIsIm5iZiI6MTU2MzIwMjM3OCwiZXhwIjoxNTYzMzc1MTc4LCJpYXQiOjE1NjMyMDIzNzh9' +
     '._hmaLSlT1qVmQMUPonxgGVN4lTpV2HSiyncNs12a_xLaHgZRqYDw7XREWZNIA-DBLPfkZEF4_8Mi7hypu_65zw',
+  authTokenKey: 'authTokenKey'
 };
 
 /*
