@@ -8,5 +8,14 @@ namespace The_Rocket_League_Backend.Data{
         public DbSet<Value> Values{ get; set; }
 
         public DbSet<User> Users{ get; set; }
+
+        public DbSet<Rocket> Rockets{ get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder){
+            modelBuilder.Entity<Rocket>()
+                .HasOne(r => r.User)
+                .WithMany(u => u.Rockets)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }
