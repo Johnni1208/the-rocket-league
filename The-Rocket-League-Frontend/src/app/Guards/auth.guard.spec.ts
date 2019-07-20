@@ -26,7 +26,6 @@ describe('AuthGuard', () => {
       providers: [AuthGuard, AuthService, { provide: Router, useValue: router }, { provide: AlertifyService, useValue: alertify }],
       imports: [
         ReactiveFormsModule,
-        FormsModule,
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([
           { path: 'login', component: LoginComponent }
