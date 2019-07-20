@@ -51,12 +51,12 @@ describe('AuthService', () => {
     expect(AuthService.getAuthToken()).toBe(null);
   });
 
-  it('isLoggedIn() should return true if there is any authToken', () => {
+  it('isLoggedIn() should return true if there is any valid authToken', () => {
     service.setAuthToken(testToken);
     expect(service.isLoggedIn()).toBeTruthy();
   });
 
-  it('isLoggedIn() should return false if there isn\'t any authToken', () => {
+  it('isLoggedIn() should return false if there isn\'t any valid authToken', () => {
     expect(service.isLoggedIn()).toBeFalsy();
   });
 });
