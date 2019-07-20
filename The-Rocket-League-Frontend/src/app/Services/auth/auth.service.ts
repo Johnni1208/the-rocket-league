@@ -4,16 +4,21 @@ import { User } from '../../Models/user';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CookieService } from 'ngx-cookie-service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private static readonly static_authTokenKey = environment.authTokenKey;
+  private readonly AUTH_TOKEN_KEY = environment.authTokenKey;
   private baseUrl = environment.baseUrl + '/auth';
-  private readonly AUTH_TOKEN_COOKIE_NAME = 'authToken';
 
-  constructor(private http: HttpClient, private cookieService: CookieService) { }
+  constructor(private http: HttpClient) { }
+
+  static getAuthToken(): string {
+    return localStorage.getItem(this.static_authTokenKey);
+  }
 
   login(user: User): Observable<any> {
     return this.http.post(this.baseUrl + '/login', user)
@@ -31,14 +36,21 @@ export class AuthService {
   }
 
   setAuthToken(token: string) {
-    this.cookieService.set(this.AUTH_TOKEN_COOKIE_NAME, token);
+    localStorage.setItem(this.AUTH_TOKEN_KEY, token);
   }
 
   deleteAuthToken() {
-    this.cookieService.delete(this.AUTH_TOKEN_COOKIE_NAME);
+    localStorage.removeItem(this.AUTH_TOKEN_KEY);
   }
 
-  getAuthToken(): string {
-    return this.cookieService.get(this.AUTH_TOKEN_COOKIE_NAME);
+  isLoggedIn(): boolean {
+    const jwtHelper = new JwtHelperService();
+
+    const token = localStorage.getItem(this.AUTH_TOKEN_KEY);
+    if (token) {
+      return !jwtHelper.isTokenExpired(token);
+    }
+
+    return false;
   }
 }

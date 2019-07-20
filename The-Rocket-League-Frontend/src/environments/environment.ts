@@ -6,8 +6,9 @@ export const environment = {
   production: false,
   baseUrl: 'http://localhost:5000/api',
   testToken: 'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9' +
-    '.eyJuYW1laWQiOiI3IiwidW5pcXVlX25hbWUiOiJmcmFueiIsIm5iZiI6MTU2MzIwMjM3OCwiZXhwIjoxNTYzMzc1MTc4LCJpYXQiOjE1NjMyMDIzNzh9' +
-    '._hmaLSlT1qVmQMUPonxgGVN4lTpV2HSiyncNs12a_xLaHgZRqYDw7XREWZNIA-DBLPfkZEF4_8Mi7hypu_65zw',
+    '.eyJuYW1laWQiOiI0IiwidW5pcXVlX25hbWUiOiJhbnRvbiIsIm5iZiI6MTU2MzYyMDczNywiZXhwIjoxNTYzNzkzNTM3LCJpYXQiOjE1NjM2MjA3Mzd9' +
+    '.XVqyRH9auQMVxld9z1wIDPP3LQdIZkUtvj6KAtj4cg2nbTp37bhsMyMCqnuiUI8utrZxI8XWCThMeJXAiWV-pQ',
+  authTokenKey: 'authTokenKey'
 };
 
 /*
