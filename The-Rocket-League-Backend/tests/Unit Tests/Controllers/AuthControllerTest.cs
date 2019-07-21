@@ -11,7 +11,7 @@ using The_Rocket_League_Backend.Models;
 using Xunit;
 
 namespace Tests.Unit_Tests.Controllers{
-    public class AuthControllerUnitTest{
+    public class AuthControllerTest{
         private readonly UserForRegisterDto mockUserForRegisterDto = new UserForRegisterDto{
             Username = "John",
             Password = "test123"
