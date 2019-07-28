@@ -27,14 +27,39 @@ namespace Tests.Unit_Tests.Controllers{
             Username = "John"
         };
 
-        private readonly Mock<IAuthRepository> authRepo = new Mock<IAuthRepository>();
-        private Mock<IConfiguration> config = new Mock<IConfiguration>();
+        private static readonly Mock<IAuthRepository> AuthRepo = new Mock<IAuthRepository>();
+        private static readonly Mock<IConfiguration> Config = new Mock<IConfiguration>();
+
+        private AuthController controller = new AuthController(AuthRepo.Object, Config.Object);
 
         [Fact]
-        public async Task Register_ReturnsBadRequest_WhenUserExists(){
-            authRepo.Setup(repo => repo.UserExists(It.IsAny<string>()))
+        public async void Register_ReturnsRegistersAUser_WhenUserDoesNotExists(){
+            AuthRepo.Setup(repo => repo.UserExists(It.IsAny<string>()))
+                .ReturnsAsync(false);
+
+            await controller.Register(mockUserForRegisterDto);
+
+            AuthRepo.Verify(x => x.Register(It.IsAny<User>(), It.IsAny<string>()), Times.Once);
+        }
+
+        [Fact]
+        public async void Register_ReturnsStatusCode201_WhenUserDoesNotExists(){
+            const int statusCodeToReturn = 201;
+
+            AuthRepo.Setup(repo => repo.UserExists(It.IsAny<string>()))
+                .ReturnsAsync(false);
+
+            var result = await controller.Register(mockUserForRegisterDto);
+            var resultStatusCode = (result as StatusCodeResult)?.StatusCode;
+
+            Assert.IsType<StatusCodeResult>(result);
+            Assert.Equal(statusCodeToReturn, resultStatusCode);
+        }
+
+        [Fact]
+        public async void Register_ReturnsBadRequest_WhenUserExists(){
+            AuthRepo.Setup(repo => repo.UserExists(It.IsAny<string>()))
                 .ReturnsAsync(true);
-            var controller = new AuthController(authRepo.Object, config.Object);
 
             var result = await controller.Register(mockUserForRegisterDto);
 
@@ -42,65 +67,41 @@ namespace Tests.Unit_Tests.Controllers{
         }
 
         [Fact]
-        public async Task Register_ReturnsStatusCode201_WhenUserDoesNotExists(){
-            authRepo.Setup(repo => repo.UserExists(It.IsAny<string>()))
-                .ReturnsAsync(false);
-            var controller = new AuthController(authRepo.Object, config.Object);
-
-            var result = await controller.Register(mockUserForRegisterDto);
-
-            Assert.IsType<StatusCodeResult>(result);
+        public async void Login_LogsInTheUser_WhenUserCanLogin(){
+            await controller.Login(mockUserForLoginDto);
+            AuthRepo.Verify(x => x.Login(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
 
         [Fact]
-        public async Task Login_ReturnsUnauthorized_WhenUserCannotLogin(){
-            authRepo.Setup(repo => repo.Login(It.IsAny<string>(), It.IsAny<string>()))
+        public async void Login_ReturnsUnauthorized_WhenUserCannotLogin(){
+            AuthRepo.Setup(repo => repo.Login(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync((User) null);
-            var controller = new AuthController(authRepo.Object, config.Object);
 
             var result = await controller.Login(mockUserForLoginDto);
 
             Assert.IsType<UnauthorizedResult>(result);
-        }
-
-        [Fact]
-        public async Task Login_ReturnsOk_WhenUserCanLogin(){
-            authRepo.Setup(repo => repo.Login(It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync(mockUserForToken);
-
-            config.Setup(config => config.GetSection(It.IsAny<string>()).Value)
-                .Returns("therocketleague12082002");
-
-            var controller = new AuthController(authRepo.Object, config.Object);
-
-            var result = await controller.Login(mockUserForLoginDto);
-
-            Assert.IsType<OkObjectResult>(result);
+            AuthRepo.Reset();
         }
 
         [Fact]
         public async Task Login_ReturnsOkWithToken_WhenUserCanLogin(){
             var tokenHandler = new JwtSecurityTokenHandler();
-
-            authRepo.Setup(repo => repo.Login(It.IsAny<string>(), It.IsAny<string>()))
+            AuthRepo.Setup(repo => repo.Login(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(mockUserForToken);
-
-            config.Setup(config => config.GetSection(It.IsAny<string>()).Value)
+            Config.Setup(config => config.GetSection(It.IsAny<string>()).Value)
                 .Returns("therocketleague12082002");
 
-            var controller = new AuthController(authRepo.Object, config.Object);
-
             var result = await controller.Login(mockUserForLoginDto);
+            var resultToken = (result as OkObjectResult)?.Value;
 
-            var securityToken = TokenHelper.CreateWritableToken(config.Object, mockUserForToken.Id, mockUserForToken.Username);
-
+            var securityToken = TokenHelper.CreateWritableToken(Config.Object, mockUserForToken.Id, mockUserForToken.Username);
             var writtenToken = new{
                 token = tokenHandler.WriteToken(securityToken)
             };
 
-            var resultToken = (result as OkObjectResult)?.Value;
-
+            Assert.IsType<OkObjectResult>(result);
             Assert.Equal(writtenToken.ToString(), resultToken?.ToString());
+            AuthRepo.Reset();
         }
     }
 }
