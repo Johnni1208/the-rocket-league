@@ -59,7 +59,6 @@ namespace The_Rocket_League_Backend.Controllers{
             return BadRequest("Could not add a new Rocket");
         }
 
-
         [HttpDelete("{userId}/{id}")]
         public async Task<IActionResult> DeleteRocket(int userId, int id){
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)){

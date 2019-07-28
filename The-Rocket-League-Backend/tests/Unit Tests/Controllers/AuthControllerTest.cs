@@ -30,7 +30,7 @@ namespace Tests.Unit_Tests.Controllers{
         private static readonly Mock<IAuthRepository> AuthRepo = new Mock<IAuthRepository>();
         private static readonly Mock<IConfiguration> Config = new Mock<IConfiguration>();
 
-        private AuthController controller = new AuthController(AuthRepo.Object, Config.Object);
+        private readonly AuthController controller = new AuthController(AuthRepo.Object, Config.Object);
 
         [Fact]
         public async void Register_ReturnsRegistersAUser_WhenUserDoesNotExists(){

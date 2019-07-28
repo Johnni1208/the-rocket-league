@@ -48,18 +48,6 @@ namespace The_Rocket_League_Backend.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("The_Rocket_League_Backend.Models.Value", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Values");
-                });
-
             modelBuilder.Entity("The_Rocket_League_Backend.Models.Rocket", b =>
                 {
                     b.HasOne("The_Rocket_League_Backend.Models.User", "User")
