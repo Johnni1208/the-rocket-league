@@ -9,8 +9,8 @@ using The_Rocket_League_Backend.Data;
 namespace The_Rocket_League_Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190720125725_UserNowHasManyRockets")]
-    partial class UserNowHasManyRockets
+    [Migration("20190728192428_AddedUserAndRocketTables")]
+    partial class AddedUserAndRocketTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,6 +22,8 @@ namespace The_Rocket_League_Backend.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DateAdded");
 
                     b.Property<int>("UserId");
 
@@ -46,18 +48,6 @@ namespace The_Rocket_League_Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("The_Rocket_League_Backend.Models.Value", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Values");
                 });
 
             modelBuilder.Entity("The_Rocket_League_Backend.Models.Rocket", b =>
