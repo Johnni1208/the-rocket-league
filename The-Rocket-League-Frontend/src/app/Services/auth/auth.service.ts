@@ -10,14 +10,13 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class AuthService {
-  private static readonly static_authTokenKey = environment.authTokenKey;
   private readonly AUTH_TOKEN_KEY = environment.authTokenKey;
   private baseUrl = environment.baseUrl + '/auth';
 
   constructor(private http: HttpClient) { }
 
   static getAuthToken(): string {
-    return localStorage.getItem(this.static_authTokenKey);
+    return localStorage.getItem(environment.authTokenKey);
   }
 
   login(user: User): Observable<any> {
