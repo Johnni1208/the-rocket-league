@@ -9,12 +9,12 @@
   transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
-.animateRocketFire{
+.animate-rocket-fire{
   transform: translate(0, 0);
   opacity: 1;
 }
 
-.animateRocketFlying{
+.animate-rocket-flying{
   animation: rocketFlying 3s ease;
 }
 

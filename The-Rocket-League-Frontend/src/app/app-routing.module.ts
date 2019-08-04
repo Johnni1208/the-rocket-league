@@ -6,6 +6,6 @@ import {AuthGuard} from './Guards/auth.guard';
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes)],
   exports: [RouterModule],
-  providers:[AuthGuard]
+  providers: [AuthGuard]
 })
 export class AppRoutingModule { }

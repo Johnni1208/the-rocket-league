@@ -10,8 +10,8 @@ import {AlertifyService} from '../../Services/alertify/alertify.service';
 export class HomeComponent {
   private clicked = 0;
   private readonly TIMES_IT_NEEDS_TO_BE_CLICKED = 2;
-  isRocketFiring: boolean;
-  isRocketFlying: boolean;
+  public isRocketFiring: boolean;
+  public isRocketFlying: boolean;
 
   constructor(private rocketService: RocketService, private alertify: AlertifyService) {
   }
