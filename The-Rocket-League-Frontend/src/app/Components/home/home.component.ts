@@ -12,4 +12,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
+  test() {
+    console.log('Image clicked.');
+  }
 }
