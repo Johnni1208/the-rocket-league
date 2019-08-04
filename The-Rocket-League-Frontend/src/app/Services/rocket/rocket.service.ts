@@ -3,21 +3,22 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {AuthService} from '../auth/auth.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RocketService {
 
-  private baseUrl: string = environment.baseUrl + '/rocket';
+  private baseUrl: string = environment.baseUrl + '/rockets';
 
-  constructor(private http: HttpClient, private authService: AuthService) {
+  constructor(private http: HttpClient) {
   }
 
-  addRocket() {
+  addRocket(): Observable<any> {
     const token = AuthService.getAuthToken();
     const jwtHelper = new JwtHelperService();
-    const userId = jwtHelper.decodeToken(token).NameIdentifier;
-    return this.http.post(this.baseUrl + '/' + userId, null);
+    const userId = jwtHelper.decodeToken(token).nameid;
+    return this.http.post(this.baseUrl + '/' + userId, '');
   }
 }
