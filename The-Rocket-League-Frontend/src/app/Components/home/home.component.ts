@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
   public addRocket() {
     this.clicked++;
     this.isRocketFiring = true;
+    this.resetClickAfterTime();
 
     if (this.clicked === this.TIMES_IT_NEEDS_TO_BE_CLICKED) {
       this.rocketService.addRocket().subscribe(() => {
@@ -58,5 +59,14 @@ export class HomeComponent implements OnInit {
     this.rocketService.getAllRockets().subscribe(res => {
       this.rocketList = res.reverse();
     });
+  }
+
+  private resetClickAfterTime(timeInSec: number = 3) {
+    setTimeout(() => {
+      if (this.clicked > 0 && this.clicked < 2) {
+        this.clicked--;
+        this.isRocketFiring = false;
+      }
+    }, timeInSec * 1000);
   }
 }
