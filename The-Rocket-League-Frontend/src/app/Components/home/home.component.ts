@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
   public isRocketFlying: boolean;
   public rocketList: Rocket[];
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getAllRockets();
   }
 
@@ -48,11 +48,13 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  private resetAnimation() {
+  private resetClickAfterTime(timeInSec: number = 3) {
     setTimeout(() => {
-      this.isRocketFiring = false;
-      this.isRocketFlying = false;
-    }, 3000);
+      if (this.clicked > 0 && this.clicked < 2) {
+        this.clicked--;
+        this.isRocketFiring = false;
+      }
+    }, timeInSec * 1000);
   }
 
   private getAllRockets() {
@@ -61,12 +63,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  private resetClickAfterTime(timeInSec: number = 3) {
+  private resetAnimation() {
     setTimeout(() => {
-      if (this.clicked > 0 && this.clicked < 2) {
-        this.clicked--;
-        this.isRocketFiring = false;
-      }
-    }, timeInSec * 1000);
+      this.isRocketFiring = false;
+      this.isRocketFlying = false;
+    }, 3000);
   }
 }
