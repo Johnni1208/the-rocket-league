@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavbarType } from '../../Enums/navbar-types.enumeration';
 import { Unicon } from '../../../assets/unicons-mapping';
+import { AuthService } from '../../Services/auth/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -31,16 +32,18 @@ export class NavbarComponent implements OnInit {
     this.leftSideLink = '';
     this.leftSideIcon = Unicon.Trophy;
 
-    this.rightSideLink = '/user';
+    const userId = AuthService.getDecodedToken().nameid;
+
+    this.rightSideLink = `/user/${userId}`;
     this.rightSideIcon = Unicon.User;
   }
 
   private changeToUser(): void {
-    this.leftSideLink = '/home';
+    this.leftSideLink = '/';
     this.leftSideIcon = Unicon.ArrowLeft;
 
-    this.rightSideLink = '';
-    this.rightSideIcon = Unicon.None;
+    this.rightSideLink = '/register';
+    this.rightSideIcon = Unicon.Logout;
   }
 
 }

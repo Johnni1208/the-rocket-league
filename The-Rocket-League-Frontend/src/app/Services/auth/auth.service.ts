@@ -19,6 +19,12 @@ export class AuthService {
     return localStorage.getItem(environment.authTokenKey);
   }
 
+  static getDecodedToken(): any {
+    const token = localStorage.getItem(environment.authTokenKey);
+    const jwtHelper = new JwtHelperService();
+    return jwtHelper.decodeToken(token);
+  }
+
   login(user: User): Observable<any> {
     return this.http.post(this.baseUrl + '/login', user)
       .pipe(
@@ -30,16 +36,16 @@ export class AuthService {
       );
   }
 
+  logout(): void {
+    localStorage.removeItem(this.AUTH_TOKEN_KEY);
+  }
+
   register(user: User): Observable<any> {
     return this.http.post(this.baseUrl + '/register', user);
   }
 
   setAuthToken(token: string) {
     localStorage.setItem(this.AUTH_TOKEN_KEY, token);
-  }
-
-  deleteAuthToken() {
-    localStorage.removeItem(this.AUTH_TOKEN_KEY);
   }
 
   isLoggedIn(): boolean {

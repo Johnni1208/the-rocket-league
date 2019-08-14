@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   baseUrl: 'http://localhost:5000/api',
   testToken: 'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9' +
-    '.eyJuYW1laWQiOiI0IiwidW5pcXVlX25hbWUiOiJhbnRvbiIsIm5iZiI6MTU2MzYyMDczNywiZXhwIjoxNTYzNzkzNTM3LCJpYXQiOjE1NjM2MjA3Mzd9' +
-    '.XVqyRH9auQMVxld9z1wIDPP3LQdIZkUtvj6KAtj4cg2nbTp37bhsMyMCqnuiUI8utrZxI8XWCThMeJXAiWV-pQ',
+    '.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJqb2huIiwibmJmIjoxNTY1ODEzMzkzLCJleHAiOjE1NjU5ODYxOTMsImlhdCI6MTU2NTgxMzM5M30' +
+    '.6rBG3R02n63P0MJIwGjieuLbLhsRO5MHx7r6pRjrAjwFavjJYoFHvMJGLrv-auZ5sQjUjv_A0IP4dYaJ8_7-Xg',
   authTokenKey: 'authTokenKey'
 };
 

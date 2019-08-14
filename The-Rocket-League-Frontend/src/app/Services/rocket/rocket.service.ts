@@ -16,9 +16,7 @@ export class RocketService {
   constructor(private http: HttpClient) { }
 
   addRocket(): Observable<any> {
-    const token = AuthService.getAuthToken();
-    const jwtHelper = new JwtHelperService();
-    const userId = jwtHelper.decodeToken(token).nameid;
+    const userId = AuthService.getDecodedToken().nameid;
     return this.http.post(this.baseUrl + '/' + userId, '');
   }
 

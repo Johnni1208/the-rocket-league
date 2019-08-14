@@ -12,6 +12,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AuthService } from './Services/auth/auth.service';
 import { AlertifyService } from './Services/alertify/alertify.service';
 import { NavbarComponent } from './Components/navbar/navbar.component';
+import { UserComponent } from './Components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { NavbarComponent } from './Components/navbar/navbar.component';
     LoginComponent,
     RegisterComponent,
     NavbarComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
