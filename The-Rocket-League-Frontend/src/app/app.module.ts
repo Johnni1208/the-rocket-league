@@ -11,6 +11,7 @@ import { RegisterComponent } from './Components/register/register.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthService } from './Services/auth/auth.service';
 import { AlertifyService } from './Services/alertify/alertify.service';
+import { NavbarComponent } from './Components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AlertifyService } from './Services/alertify/alertify.service';
     HomeComponent,
     LoginComponent,
     RegisterComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,

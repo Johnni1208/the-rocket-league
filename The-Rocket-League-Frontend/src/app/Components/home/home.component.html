@@ -1,5 +1,6 @@
 <div class="container d-flex flex-column vh-100">
-  <div class="row pt-5">
+  <app-navbar [navbarType]="navbarType"></app-navbar>
+  <div class="row">
     <div class="col-12 d-flex justify-content-center">
       <svg class="logo" [class.animate-rocket-flying]="isRocketFlying" (click)="addRocket()" viewBox="0 0 771 1096"
            version="1.1"
@@ -69,7 +70,7 @@
       
       <div class="left-side">
           <span class="name">{{ rocket.user.username }}</span>
-          <span class="timeAgo">{{ getTimeAgo(rocket) }}</span>
+          <span class="time-ago">{{ getTimeAgo(rocket) }}</span>
       </div>
       
       <div class="right-side d-flex align-items-center justify-content-end">
