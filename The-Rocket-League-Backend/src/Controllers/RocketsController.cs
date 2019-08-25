@@ -14,17 +14,19 @@ namespace The_Rocket_League_Backend.Controllers{
     [Route("api/[controller]")]
     [ApiController]
     public class RocketsController : ControllerBase{
-        private readonly IRocketLeagueRepository repo;
+        private readonly IRocketRepository rocketRepo;
+        private readonly IUserRepository userRepo;
         private readonly IMapper mapper;
 
-        public RocketsController(IRocketLeagueRepository repo, IMapper mapper){
-            this.repo = repo;
+        public RocketsController(IRocketRepository rocketRepo, IUserRepository userRepo, IMapper mapper){
+            this.rocketRepo = rocketRepo;
+            this.userRepo = userRepo;
             this.mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetRockets(){
-            var rockets = await repo.GetRockets();
+            var rockets = await rocketRepo.GetRockets();
 
             var rocketsToReturn = mapper.Map<IEnumerable<RocketForListDto>>(rockets);
 
@@ -33,7 +35,7 @@ namespace The_Rocket_League_Backend.Controllers{
 
         [HttpGet("{id}", Name = "GetRocket")]
         public async Task<IActionResult> GetRocket(int id){
-            var rocket = await repo.GetRocket(id);
+            var rocket = await rocketRepo.GetRocket(id);
 
             var rocketToReturn = mapper.Map<RocketToReturn>(rocket);
 
@@ -46,13 +48,13 @@ namespace The_Rocket_League_Backend.Controllers{
                 return Unauthorized();
             }
 
-            var userFromRepo = await repo.GetUser(userId);
+            var userFromRepo = await userRepo.GetUser(userId);
 
             var rocket = new Rocket();
 
             userFromRepo.Rockets.Add(rocket);
 
-            if (await repo.SaveAll()){
+            if (await rocketRepo.SaveAll()){
                 return CreatedAtRoute("GetRocket", new{ id = rocket.Id }, mapper.Map<RocketToReturn>(rocket));
             }
 
@@ -65,17 +67,17 @@ namespace The_Rocket_League_Backend.Controllers{
                 return Unauthorized();
             }
 
-            var userFromRepo = await repo.GetUser(userId);
+            var userFromRepo = await userRepo.GetUser(userId);
 
             if (!userFromRepo.Rockets.Any(r => r.Id == id)){
                 return Unauthorized();
             }
 
-            var rocketFromRepo = await repo.GetRocket(id);
+            var rocketFromRepo = await rocketRepo.GetRocket(id);
 
-            repo.Delete(rocketFromRepo);
+            rocketRepo.Delete(rocketFromRepo);
 
-            if (await repo.SaveAll()){
+            if (await rocketRepo.SaveAll()){
                 return Ok();
             }
 

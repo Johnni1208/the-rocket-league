@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using The_Rocket_League_Backend.Models;
 
 namespace The_Rocket_League_Backend.Data{
-    public class RocketLeagueRepository : IRocketLeagueRepository{
+    public class RocketRepository : IRocketRepository{
         private readonly DataContext context;
 
-        public RocketLeagueRepository(DataContext context){
+        public RocketRepository(DataContext context){
             this.context = context;
         }
 
@@ -33,13 +33,6 @@ namespace The_Rocket_League_Backend.Data{
             var rockets = await context.Rockets.Include(u => u.User).ToListAsync();
 
             return rockets;
-        }
-
-        public async Task<User> GetUser(int id){
-            var user = await context.Users.Include(r => r.Rockets)
-                .FirstOrDefaultAsync(u => u.Id == id);
-
-            return user;
         }
 
         public async Task<Rocket> GetRocket(int id){

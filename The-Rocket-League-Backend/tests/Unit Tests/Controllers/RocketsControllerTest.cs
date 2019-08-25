@@ -16,7 +16,8 @@ using Xunit;
 
 namespace Tests.Unit_Tests.Controllers{
     public class RocketsControllerTest{
-        private static readonly Mock<IRocketLeagueRepository> Repo = new Mock<IRocketLeagueRepository>();
+        private static readonly Mock<IRocketRepository> RocketRepo = new Mock<IRocketRepository>();
+        private static readonly Mock<IUserRepository> UserRepo = new Mock<IUserRepository>();
 
         private static readonly Mapper Mapper = new Mapper(new MapperConfiguration(cfg => {
             cfg.AddProfile<AutoMapperProfiles>();
@@ -31,7 +32,7 @@ namespace Tests.Unit_Tests.Controllers{
             new Claim(ClaimTypes.NameIdentifier, MockUser.Id.ToString())
         }));
 
-        private readonly RocketsController controller = new RocketsController(Repo.Object, Mapper){
+        private readonly RocketsController controller = new RocketsController(RocketRepo.Object, UserRepo.Object, Mapper){
             ControllerContext = new ControllerContext{
                 HttpContext = new DefaultHttpContext{ User = MockHttpContextUser }
             }
@@ -55,7 +56,7 @@ namespace Tests.Unit_Tests.Controllers{
 
         [Fact]
         public async void GetRockets_ReturnsAListOfRocketForListDtos(){
-            Repo.Setup(x => x.GetRockets()).ReturnsAsync(GetFakeListOfRockets());
+            RocketRepo.Setup(x => x.GetRockets()).ReturnsAsync(GetFakeListOfRockets());
 
             var result = await controller.GetRockets();
             var resultRockets = (result as OkObjectResult)?.Value as List<RocketForListDto>;
@@ -67,7 +68,7 @@ namespace Tests.Unit_Tests.Controllers{
 
         [Fact]
         public async void GetRockets_Returns0Rockets_IfThereAreNoRocketsInTheDatabase(){
-            Repo.Setup(x => x.GetRockets()).ReturnsAsync(Enumerable.Empty<Rocket>());
+            RocketRepo.Setup(x => x.GetRockets()).ReturnsAsync(Enumerable.Empty<Rocket>());
 
             var result = await controller.GetRockets();
             var resultRockets = (result as OkObjectResult)?.Value as List<RocketForListDto>;
@@ -79,7 +80,7 @@ namespace Tests.Unit_Tests.Controllers{
 
         [Fact]
         public async void GetRocket_ReturnsOneSpecificRocket(){
-            Repo.Setup(x => x.GetRocket(It.IsAny<int>())).ReturnsAsync(mockRocket);
+            RocketRepo.Setup(x => x.GetRocket(It.IsAny<int>())).ReturnsAsync(mockRocket);
 
             var result = await controller.GetRocket(It.IsAny<int>());
             var resultRocket = (result as OkObjectResult)?.Value as RocketToReturn;
@@ -91,7 +92,7 @@ namespace Tests.Unit_Tests.Controllers{
 
         [Fact]
         public async void GetRocket_ReturnsNoRocket_IfThereIsNotAnyMatchingRocket(){
-            Repo.Setup(x => x.GetRocket(It.IsAny<int>())).ReturnsAsync(null as Rocket);
+            RocketRepo.Setup(x => x.GetRocket(It.IsAny<int>())).ReturnsAsync(null as Rocket);
 
             var result = await controller.GetRocket(It.IsAny<int>());
             var resultRocket = (result as OkObjectResult)?.Value;
@@ -102,9 +103,9 @@ namespace Tests.Unit_Tests.Controllers{
 
         [Fact]
         public async void AddRocket_AddsARocketToTheDatabase(){
-            Repo.Setup(x => x.GetUser(It.IsAny<int>()))
+            UserRepo.Setup(x => x.GetUser(It.IsAny<int>()))
                 .ReturnsAsync(MockUser);
-            Repo.Setup(x => x.SaveAll()).ReturnsAsync(true);
+            RocketRepo.Setup(x => x.SaveAll()).ReturnsAsync(true);
 
             await controller.AddRocket(MockUser.Id);
 
@@ -116,20 +117,20 @@ namespace Tests.Unit_Tests.Controllers{
         public async void DeleteRocket_DeletesRocket_IfAnyExists(){
             MockUser.Rockets.Add(mockRocket);
 
-            Repo.Setup(x => x.GetUser(It.IsAny<int>()))
+            UserRepo.Setup(x => x.GetUser(It.IsAny<int>()))
                 .ReturnsAsync(MockUser);
-            Repo.Setup(x => x.GetRocket(It.IsAny<int>()))
+            RocketRepo.Setup(x => x.GetRocket(It.IsAny<int>()))
                 .ReturnsAsync(mockRocket);
 
             await controller.DeleteRocket(MockUser.Id, mockRocket.Id);
 
-            Repo.Verify(x => x.Delete(mockRocket), Times.Once);
+            RocketRepo.Verify(x => x.Delete(mockRocket), Times.Once);
             MockUser.Rockets.Clear();
         }
 
         [Fact]
         public async void DeleteRocket_ReturnsUnauthorized_IfNoRocketHasMatchingId(){
-            Repo.Setup(x => x.GetUser(It.IsAny<int>()))
+            UserRepo.Setup(x => x.GetUser(It.IsAny<int>()))
                 .ReturnsAsync(MockUser);
 
             var result = await controller.DeleteRocket(MockUser.Id, 1);
