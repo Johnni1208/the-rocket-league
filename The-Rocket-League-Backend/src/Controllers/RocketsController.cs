@@ -28,7 +28,7 @@ namespace The_Rocket_League_Backend.Controllers{
         public async Task<IActionResult> GetRockets(){
             var rockets = await rocketRepo.GetRockets();
 
-            var rocketsToReturn = mapper.Map<IEnumerable<RocketForListDto>>(rockets);
+            var rocketsToReturn = mapper.Map<IEnumerable<RocketWithUserDto>>(rockets);
 
             return Ok(rocketsToReturn);
         }
@@ -37,7 +37,7 @@ namespace The_Rocket_League_Backend.Controllers{
         public async Task<IActionResult> GetRocket(int id){
             var rocket = await rocketRepo.GetRocket(id);
 
-            var rocketToReturn = mapper.Map<RocketToReturn>(rocket);
+            var rocketToReturn = mapper.Map<RocketWithUserDto>(rocket);
 
             return Ok(rocketToReturn);
         }
@@ -55,7 +55,7 @@ namespace The_Rocket_League_Backend.Controllers{
             userFromRepo.Rockets.Add(rocket);
 
             if (await rocketRepo.SaveAll()){
-                return CreatedAtRoute("GetRocket", new{ id = rocket.Id }, mapper.Map<RocketToReturn>(rocket));
+                return CreatedAtRoute("GetRocket", new{ id = rocket.Id }, mapper.Map<RocketWithUserDto>(rocket));
             }
 
             return BadRequest("Could not add a new Rocket");

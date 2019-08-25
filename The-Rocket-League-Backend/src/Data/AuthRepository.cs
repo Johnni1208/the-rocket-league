@@ -12,14 +12,6 @@ namespace The_Rocket_League_Backend.Data{
             this.context = context;
         }
 
-        public async Task<bool> UserExists(string username){
-            if (await context.Users.AnyAsync(x => x.Username == username)){
-                return true;
-            }
-
-            return false;
-        }
-
         public async Task<User> Register(User user, string password){
             byte[] passwordHash, passwordSalt;
 

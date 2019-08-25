@@ -59,7 +59,7 @@ namespace Tests.Unit_Tests.Controllers{
             RocketRepo.Setup(x => x.GetRockets()).ReturnsAsync(GetFakeListOfRockets());
 
             var result = await controller.GetRockets();
-            var resultRockets = (result as OkObjectResult)?.Value as List<RocketForListDto>;
+            var resultRockets = (result as OkObjectResult)?.Value as List<RocketWithUserDto>;
 
             var count = resultRockets?.Count;
 
@@ -71,7 +71,7 @@ namespace Tests.Unit_Tests.Controllers{
             RocketRepo.Setup(x => x.GetRockets()).ReturnsAsync(Enumerable.Empty<Rocket>());
 
             var result = await controller.GetRockets();
-            var resultRockets = (result as OkObjectResult)?.Value as List<RocketForListDto>;
+            var resultRockets = (result as OkObjectResult)?.Value as List<RocketWithUserDto>;
 
             var count = resultRockets?.Count;
 
@@ -83,7 +83,7 @@ namespace Tests.Unit_Tests.Controllers{
             RocketRepo.Setup(x => x.GetRocket(It.IsAny<int>())).ReturnsAsync(mockRocket);
 
             var result = await controller.GetRocket(It.IsAny<int>());
-            var resultRocket = (result as OkObjectResult)?.Value as RocketToReturn;
+            var resultRocket = (result as OkObjectResult)?.Value as RocketWithUserDto;
 
             Assert.Equal(mockRocket.Id, resultRocket?.Id);
             Assert.Equal(mockRocket.DateAdded, resultRocket?.DateAdded);

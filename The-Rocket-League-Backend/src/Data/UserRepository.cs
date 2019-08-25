@@ -10,6 +10,14 @@ namespace The_Rocket_League_Backend.Data{
             this.context = context;
         }
 
+        public async Task<bool> UserExists(string username){
+            return await context.Users.AnyAsync(x => x.Username == username);
+        }
+
+        public async Task<bool> UserExists(int id){
+            return await context.Users.AnyAsync(x => x.Id == id);
+        }
+
         public async Task<User> GetUser(int id){
             var user = await context.Users.Include(r => r.Rockets)
                 .FirstOrDefaultAsync(u => u.Id == id);
