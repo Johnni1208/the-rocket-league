@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavbarType } from '../../Enums/navbar-types.enumeration';
 import { AuthService } from '../../Services/auth/auth.service';
+import { Rocket } from '../../Models/rocket';
 
 @Component({
   selector: 'app-user',
@@ -10,4 +11,5 @@ import { AuthService } from '../../Services/auth/auth.service';
 export class UserComponent {
   public navbarType: NavbarType = NavbarType.User;
   public username = AuthService.getDecodedToken().unique_name;
+  rocketList: Rocket[];
 }

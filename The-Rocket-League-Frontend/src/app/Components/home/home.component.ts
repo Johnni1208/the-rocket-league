@@ -30,10 +30,6 @@ export class HomeComponent implements OnInit {
     private alertify: AlertifyService
   ) { }
 
-  public getTimeAgo(rocket: Rocket): string {
-    return moment(rocket.dateAdded).fromNow();
-  }
-
   public addRocket() {
     this.clicked++;
     this.isRocketFiring = true;

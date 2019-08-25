@@ -13,6 +13,7 @@ import { AuthService } from './Services/auth/auth.service';
 import { AlertifyService } from './Services/alertify/alertify.service';
 import { NavbarComponent } from './Components/navbar/navbar.component';
 import { UserComponent } from './Components/user/user.component';
+import { RocketListComponent } from './Components/rocket-list/rocket-list.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { UserComponent } from './Components/user/user.component';
     RegisterComponent,
     NavbarComponent,
     UserComponent,
+    RocketListComponent,
   ],
   imports: [
     BrowserModule,

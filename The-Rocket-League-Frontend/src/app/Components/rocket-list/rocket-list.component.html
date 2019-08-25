@@ -1,0 +1,15 @@
+<div class="col-12 mh-100">
+  <div class="rocket-list-container row">
+    <div class="rocket-list-item col-12" *ngFor="let rocket of rocketList">
+      
+      <div class="left-side">
+        <span class="name">{{ rocket.user.username }}</span>
+        <span class="time-ago">{{ getTimeAgo(rocket) }}</span>
+      </div>
+      
+      <div class="right-side d-flex align-items-center justify-content-end">
+        <img src="/assets/images/logo-rocket-shadow.svg" alt="Small rocket">
+      </div>
+    </div>
+  </div>
+</div>
