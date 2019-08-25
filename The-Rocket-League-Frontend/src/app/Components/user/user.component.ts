@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavbarType } from '../../Enums/navbar-types.enumeration';
+import { AuthService } from '../../Services/auth/auth.service';
 
 @Component({
   selector: 'app-user',
@@ -8,4 +9,5 @@ import { NavbarType } from '../../Enums/navbar-types.enumeration';
 })
 export class UserComponent {
   public navbarType: NavbarType = NavbarType.User;
+  public username = AuthService.getDecodedToken().unique_name;
 }

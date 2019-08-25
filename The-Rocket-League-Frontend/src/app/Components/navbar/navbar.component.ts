@@ -19,8 +19,8 @@ export class NavbarComponent implements OnInit {
   public leftSideIcon: Unicon;
 
   private navBarTypeDict: { [key in NavbarType]: () => void } = {
-    [NavbarType.Home]: () => this.changeToHome(),
-    [NavbarType.User]: () => this.changeToUser(),
+    [NavbarType.Home]: () => this.onHome(),
+    [NavbarType.User]: () => this.onOwnUserProfile(),
     [NavbarType.RankingList]: () => {},
   };
 
@@ -28,7 +28,7 @@ export class NavbarComponent implements OnInit {
     this.navBarTypeDict[this.navbarType]();
   }
 
-  private changeToHome(): void {
+  private onHome(): void {
     this.leftSideLink = '';
     this.leftSideIcon = Unicon.Trophy;
 
@@ -38,11 +38,11 @@ export class NavbarComponent implements OnInit {
     this.rightSideIcon = Unicon.User;
   }
 
-  private changeToUser(): void {
+  private onOwnUserProfile(): void {
     this.leftSideLink = '/';
     this.leftSideIcon = Unicon.ArrowLeft;
 
-    this.rightSideLink = '/register';
+    this.rightSideLink = '/login';
     this.rightSideIcon = Unicon.Logout;
   }
 

@@ -1,0 +1,22 @@
+.row {
+  flex: 1 1 auto;
+  height: 0;
+}
+
+.user-name{
+  font-size: 3rem;
+  color: white;
+  max-width: 100%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+}
+
+.user-name-rocket{
+  width: auto;
+  height: 100px;
+  position: absolute;
+  top: 20px;
+  right: 50px;
+  transform: rotate(20deg);
+}

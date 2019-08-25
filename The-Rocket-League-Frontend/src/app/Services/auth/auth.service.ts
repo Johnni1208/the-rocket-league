@@ -13,19 +13,19 @@ export class AuthService {
   private readonly AUTH_TOKEN_KEY = environment.authTokenKey;
   private baseUrl = environment.baseUrl + '/auth';
 
-  constructor(private http: HttpClient) { }
+  public constructor(private http: HttpClient) { }
 
-  static getAuthToken(): string {
+  public static getAuthToken(): string {
     return localStorage.getItem(environment.authTokenKey);
   }
 
-  static getDecodedToken(): any {
+  public static getDecodedToken(): any {
     const token = localStorage.getItem(environment.authTokenKey);
     const jwtHelper = new JwtHelperService();
     return jwtHelper.decodeToken(token);
   }
 
-  login(user: User): Observable<any> {
+  public login(user: User): Observable<any> {
     return this.http.post(this.baseUrl + '/login', user)
       .pipe(
         map((response: any) => {
@@ -36,19 +36,19 @@ export class AuthService {
       );
   }
 
-  logout(): void {
-    localStorage.removeItem(this.AUTH_TOKEN_KEY);
-  }
-
-  register(user: User): Observable<any> {
-    return this.http.post(this.baseUrl + '/register', user);
-  }
-
-  setAuthToken(token: string) {
+  private setAuthToken(token: string) {
     localStorage.setItem(this.AUTH_TOKEN_KEY, token);
   }
 
-  isLoggedIn(): boolean {
+  public logout(): void {
+    localStorage.removeItem(this.AUTH_TOKEN_KEY);
+  }
+
+  public register(user: User): Observable<any> {
+    return this.http.post(this.baseUrl + '/register', user);
+  }
+
+  public isLoggedIn(): boolean {
     const jwtHelper = new JwtHelperService();
 
     const token = localStorage.getItem(this.AUTH_TOKEN_KEY);
