@@ -15,7 +15,7 @@ namespace The_Rocket_League_Backend.Controllers{
         private readonly IUserRepository userRepo;
         private readonly IConfiguration config;
 
-        public AuthController(IAuthRepository authRepo,IUserRepository userRepo, IConfiguration config){
+        public AuthController(IAuthRepository authRepo, IUserRepository userRepo, IConfiguration config){
             this.authRepo = authRepo;
             this.userRepo = userRepo;
             this.config = config;
