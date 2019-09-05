@@ -11,11 +11,13 @@ namespace The_Rocket_League_Backend.Controllers{
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase{
-        private readonly IAuthRepository repo;
+        private readonly IAuthRepository authRepo;
+        private readonly IUserRepository userRepo;
         private readonly IConfiguration config;
 
-        public AuthController(IAuthRepository repo, IConfiguration config){
-            this.repo = repo;
+        public AuthController(IAuthRepository authRepo, IUserRepository userRepo, IConfiguration config){
+            this.authRepo = authRepo;
+            this.userRepo = userRepo;
             this.config = config;
         }
 
@@ -23,20 +25,20 @@ namespace The_Rocket_League_Backend.Controllers{
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto){
             userForRegisterDto.Username = userForRegisterDto.Username.Trim().ToLower();
 
-            if (await repo.UserExists(userForRegisterDto.Username)){
+            if (await userRepo.UserExists(userForRegisterDto.Username)){
                 return BadRequest("Benutzer gibt es bereits.");
             }
 
             var user = new User{ Username = userForRegisterDto.Username };
 
-            await repo.Register(user, userForRegisterDto.Password);
+            await authRepo.Register(user, userForRegisterDto.Password);
 
             return StatusCode(201);
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto){
-            var userFromRepo = await repo.Login(userForLoginDto.Username.Trim().ToLower(), userForLoginDto.Password);
+            var userFromRepo = await authRepo.Login(userForLoginDto.Username.Trim().ToLower(), userForLoginDto.Password);
 
             if (userFromRepo == null){
                 return Unauthorized();

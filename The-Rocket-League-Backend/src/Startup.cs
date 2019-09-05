@@ -23,13 +23,18 @@ namespace The_Rocket_League_Backend{
         public void ConfigureDevelopmentServices(IServiceCollection services){
             services.AddDbContext<DataContext>(x =>
                 x.UseSqlite(Configuration.GetConnectionString("DefaultConnectionString")));
+
             services.AddAutoMapper(typeof(Startup));
+
             services.AddScoped<IAuthRepository, AuthRepository>();
-            services.AddScoped<IRocketLeagueRepository, RocketLeagueRepository>();
+            services.AddScoped<IRocketRepository, RocketRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(opt => {
                     opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
                     options.TokenValidationParameters = new TokenValidationParameters{

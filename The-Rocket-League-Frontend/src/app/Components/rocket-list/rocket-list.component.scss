@@ -1,0 +1,51 @@
+@import "~src/app/CSS/colors";
+
+
+.rocket-list-container {
+  overflow-y: scroll;
+  height: 100%;
+}
+
+.rocket-list-item {
+  background-color: #fff;
+  color: $main-text-color;
+  border-radius: 5px;
+  padding: 20px 15px;
+
+  margin-bottom: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .5);
+
+  .left-side {
+    height: 100%;
+    width: 50%;
+    float: left;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    .name {
+      font-size: 1.5rem;
+      width: 100%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      text-transform: capitalize;
+    }
+
+    .time-ago {
+      opacity: .75;
+    }
+  }
+
+  .right-side {
+    height: 100%;
+    float: right;
+
+    img {
+      width: 50%;
+      height: auto;
+      float: right;
+      padding-right: 10px;
+    }
+
+  }
+}

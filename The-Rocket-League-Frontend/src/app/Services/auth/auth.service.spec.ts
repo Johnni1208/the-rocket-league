@@ -25,38 +25,56 @@ describe('AuthService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('setAuthToken() should set a token into the localstorage', () => {
+  it('logout() should delete the authToken in localstorage', () => {
     service.setAuthToken(testToken);
-    expect(localStorage.getItem(AUTH_TOKEN_KEY)).toBe(testToken);
-  });
-
-  it('setAuthToken() should change the old authToken to new values', () => {
-    service.setAuthToken(testToken);
-    service.setAuthToken('abcdef');
-    expect(localStorage.getItem(AUTH_TOKEN_KEY)).toBe('abcdef');
-  });
-
-  it('deleteAuthToken() should delete the authToken in localstorage', () => {
-    service.setAuthToken(testToken);
-    service.deleteAuthToken();
+    service.logout();
     expect(localStorage.getItem(AUTH_TOKEN_KEY)).toBe(null);
   });
 
-  it('getAuthToken() should return the authToken if it got set', () => {
-    service.setAuthToken(testToken);
-    expect(AuthService.getAuthToken()).toBe(testToken);
+  describe('setAuthToken()', () => {
+    it('should set a token into the localstorage', () => {
+      service.setAuthToken(testToken);
+      expect(localStorage.getItem(AUTH_TOKEN_KEY)).toBe(testToken);
+    });
+
+    it('should change the old authToken to new values', () => {
+      service.setAuthToken(testToken);
+      service.setAuthToken('abcdef');
+      expect(localStorage.getItem(AUTH_TOKEN_KEY)).toBe('abcdef');
+    });
   });
 
-  it('getAuthToken() should return null if no authToken is found in localstorage', () => {
-    expect(AuthService.getAuthToken()).toBe(null);
+  describe('getAuthToken()', () => {
+    it('should return the authToken if it got set', () => {
+      service.setAuthToken(testToken);
+      expect(AuthService.getAuthToken()).toBe(testToken);
+    });
+
+    it('should return null if no authToken is found in localstorage', () => {
+      expect(AuthService.getAuthToken()).toBe(null);
+    });
   });
 
-  it('isLoggedIn() should return true if there is any valid authToken', () => {
-    service.setAuthToken(testToken);
-    expect(service.isLoggedIn()).toBeTruthy();
+  describe('getDecodedToken()', () => {
+    it('should return the decoded authToken if it got set', () => {
+      service.setAuthToken(testToken);
+      const decodedToken = AuthService.getDecodedToken();
+      expect(decodedToken === testToken).toBeFalsy();
+    });
+
+    it('should return null if no authToken is found in localstorage', () => {
+      expect(AuthService.getDecodedToken()).toBe(null);
+    });
   });
 
-  it('isLoggedIn() should return false if there isn\'t any valid authToken', () => {
-    expect(service.isLoggedIn()).toBeFalsy();
+  describe('isLoggedIn()', () => {
+    it('should return true if there is any valid authToken', () => {
+      service.setAuthToken(testToken);
+      expect(service.isLoggedIn()).toBeTruthy();
+    });
+
+    it('should return false if there isn\'t any valid authToken', () => {
+      expect(service.isLoggedIn()).toBeFalsy();
+    });
   });
 });

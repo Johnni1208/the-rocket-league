@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../auth/auth.service';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { Rocket } from '../../Models/rocket';
 
@@ -16,9 +15,7 @@ export class RocketService {
   constructor(private http: HttpClient) { }
 
   addRocket(): Observable<any> {
-    const token = AuthService.getAuthToken();
-    const jwtHelper = new JwtHelperService();
-    const userId = jwtHelper.decodeToken(token).nameid;
+    const userId = AuthService.getDecodedToken().nameid;
     return this.http.post(this.baseUrl + '/' + userId, '');
   }
 

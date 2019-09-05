@@ -28,13 +28,15 @@ namespace Tests.Unit_Tests.Controllers{
         };
 
         private static readonly Mock<IAuthRepository> AuthRepo = new Mock<IAuthRepository>();
+        private static readonly Mock<IUserRepository> UserRepo = new Mock<IUserRepository>();
         private static readonly Mock<IConfiguration> Config = new Mock<IConfiguration>();
 
-        private readonly AuthController controller = new AuthController(AuthRepo.Object, Config.Object);
+        private readonly AuthController
+            controller = new AuthController(AuthRepo.Object, UserRepo.Object, Config.Object);
 
         [Fact]
         public async void Register_ReturnsRegistersAUser_WhenUserDoesNotExists(){
-            AuthRepo.Setup(repo => repo.UserExists(It.IsAny<string>()))
+            UserRepo.Setup(repo => repo.UserExists(It.IsAny<string>()))
                 .ReturnsAsync(false);
 
             await controller.Register(mockUserForRegisterDto);
@@ -46,7 +48,7 @@ namespace Tests.Unit_Tests.Controllers{
         public async void Register_ReturnsStatusCode201_WhenUserDoesNotExists(){
             const int statusCodeToReturn = 201;
 
-            AuthRepo.Setup(repo => repo.UserExists(It.IsAny<string>()))
+            UserRepo.Setup(repo => repo.UserExists(It.IsAny<string>()))
                 .ReturnsAsync(false);
 
             var result = await controller.Register(mockUserForRegisterDto);
@@ -58,7 +60,7 @@ namespace Tests.Unit_Tests.Controllers{
 
         [Fact]
         public async void Register_ReturnsBadRequest_WhenUserExists(){
-            AuthRepo.Setup(repo => repo.UserExists(It.IsAny<string>()))
+            UserRepo.Setup(repo => repo.UserExists(It.IsAny<string>()))
                 .ReturnsAsync(true);
 
             var result = await controller.Register(mockUserForRegisterDto);
@@ -94,7 +96,8 @@ namespace Tests.Unit_Tests.Controllers{
             var result = await controller.Login(mockUserForLoginDto);
             var resultToken = (result as OkObjectResult)?.Value;
 
-            var securityToken = TokenHelper.CreateWritableToken(Config.Object, mockUserForToken.Id, mockUserForToken.Username);
+            var securityToken =
+                TokenHelper.CreateWritableToken(Config.Object, mockUserForToken.Id, mockUserForToken.Username);
             var writtenToken = new{
                 token = tokenHandler.WriteToken(securityToken)
             };

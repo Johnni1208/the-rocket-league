@@ -21,6 +21,7 @@ export class RegisterComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
+    this.authService.logout();
     this.createRegisterForm();
   }
 

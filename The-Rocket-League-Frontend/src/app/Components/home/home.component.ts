@@ -3,6 +3,7 @@ import { RocketService } from '../../Services/rocket/rocket.service';
 import { AlertifyService } from '../../Services/alertify/alertify.service';
 import { Rocket } from '../../Models/rocket';
 import * as moment from 'moment';
+import { NavbarType } from '../../Enums/navbar-types.enumeration';
 
 @Component({
   selector: 'app-home',
@@ -10,11 +11,15 @@ import * as moment from 'moment';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  private clicked = 0;
-  private readonly TIMES_IT_NEEDS_TO_BE_CLICKED = 2;
+  public navbarType: NavbarType = NavbarType.Home;
+
+  public rocketList: Rocket[];
+
   public isRocketFiring: boolean;
   public isRocketFlying: boolean;
-  public rocketList: Rocket[];
+
+  private clicked = 0;
+  private readonly TIMES_IT_NEEDS_TO_BE_CLICKED = 2;
 
   public ngOnInit(): void {
     this.getAllRockets();
@@ -24,10 +29,6 @@ export class HomeComponent implements OnInit {
     private rocketService: RocketService,
     private alertify: AlertifyService
   ) { }
-
-  public getTimeAgo(rocket: Rocket): string {
-    return moment(rocket.dateAdded).fromNow();
-  }
 
   public addRocket() {
     this.clicked++;
