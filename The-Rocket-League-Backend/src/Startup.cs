@@ -20,9 +20,9 @@ namespace The_Rocket_League_Backend{
         public IConfiguration Configuration{ get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureDevelopmentServices(IServiceCollection services){
+        public void ConfigureServices(IServiceCollection services){
             services.AddDbContext<DataContext>(x =>
-                x.UseSqlite(Configuration.GetConnectionString("DefaultConnectionString")));
+                x.UseMySql(Configuration.GetConnectionString("DefaultConnectionString")));
 
             services.AddAutoMapper(typeof(Startup));
 

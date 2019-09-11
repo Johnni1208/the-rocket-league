@@ -9,14 +9,15 @@ using The_Rocket_League_Backend.Data;
 namespace The_Rocket_League_Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190728192428_AddedUserAndRocketTables")]
+    [Migration("20190911144724_AddedUserAndRocketTables")]
     partial class AddedUserAndRocketTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("The_Rocket_League_Backend.Models.Rocket", b =>
                 {
