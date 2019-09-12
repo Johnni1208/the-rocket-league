@@ -1,0 +1,23 @@
+@import "~src/app/CSS/colors";
+$spacing: -10px;
+
+.left-side {
+  float: left;
+  margin-left: $spacing;
+}
+
+.right-side {
+  float: right;
+  margin-right: $spacing;
+}
+
+.button {
+  font-size: 2.5rem;
+  text-decoration: none;
+  color: $main-white;
+  transition: color 0.5s ease;
+
+  &:hover {
+    color: $main-white-darken;
+  }
+}
