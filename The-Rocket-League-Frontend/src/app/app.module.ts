@@ -34,8 +34,8 @@ import { RocketListComponent } from './Components/rocket-list/rocket-list.compon
     JwtModule.forRoot({
       config: {
         tokenGetter: AuthService.getAuthToken,
-        whitelistedDomains: ['localhost:5000'],
-        blacklistedRoutes: ['localhost:5000/api/auth']
+        whitelistedDomains: ['localhost:8080'],
+        blacklistedRoutes: ['localhost:8080/api/auth']
       }
     })
   ],

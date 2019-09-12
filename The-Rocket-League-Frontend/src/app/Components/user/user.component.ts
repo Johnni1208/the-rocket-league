@@ -10,7 +10,7 @@ import { UserService } from '../../Services/user/user.service';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  private user = AuthService.getDecodedToken();
+  public user = AuthService.getDecodedToken();
   public navbarType: NavbarType = NavbarType.User;
   public rocketList: Rocket[];
 

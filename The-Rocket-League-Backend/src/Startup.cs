@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
+using System.Threading;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using The_Rocket_League_Backend.Data;
 
@@ -20,9 +23,11 @@ namespace The_Rocket_League_Backend{
         public IConfiguration Configuration{ get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureDevelopmentServices(IServiceCollection services){
+        public void ConfigureServices(IServiceCollection services){
+            var dbConnectionString = Configuration.GetConnectionString("DefaultConnectionString");
+            WaitForDbStartup(dbConnectionString);
             services.AddDbContext<DataContext>(x =>
-                x.UseSqlite(Configuration.GetConnectionString("DefaultConnectionString")));
+                x.UseMySql(dbConnectionString));
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -47,8 +52,28 @@ namespace The_Rocket_League_Backend{
                 });
         }
 
+        private static void WaitForDbStartup(string connectionString){
+            var connection = new MySqlConnection(connectionString);
+            var retries = 1;
+            while (retries < 7)
+            {
+                try
+                {
+                    Console.WriteLine("Connecting to db. Trial: {0}", retries);
+                    connection.Open();
+                    connection.Close();
+                    break;
+                }
+                catch (MySqlException)
+                {
+                    Thread.Sleep((int) Math.Pow(2, retries) * 1000);
+                    retries++;
+                }
+            }
+        }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env){
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, DataContext context){
             if (env.IsDevelopment()){
                 app.UseDeveloperExceptionPage();
             }
@@ -58,6 +83,7 @@ namespace The_Rocket_League_Backend{
             }
 
 //            app.UseHttpsRedirection();
+            context.Database.Migrate();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
             app.UseMvc();

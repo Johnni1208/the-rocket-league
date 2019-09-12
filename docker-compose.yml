@@ -1,0 +1,37 @@
+version: '3.3'
+services:
+  backend:
+    build: 
+      context: ./The-Rocket-League-Backend/src/
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+  
+  frontend:
+    build: 
+      context: ./The-Rocket-League-Frontend/
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8081:80"
+
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'the-rocket-league-db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'secretpassword'
+      MYSQL_ROOT_PASSWORD: 'muchmoresecretpassword'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - my-db:/var/lib/mysql
+  
+volumes:
+  my-db:
