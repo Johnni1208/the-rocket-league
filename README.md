@@ -1,5 +1,5 @@
 # The Rocket League - A drinking WebApp game
-The Rocket League is a mobile WebApp drinking game. Espacially made for "Astra Rakete". It tracks how many bottles you've drunken and how many others drank.
+The Rocket League is a mobile WebApp drinking game. Espacially made for "Astra Rakete". It tracks how many bottles you've drunken and how many others drank. (commissioned work)
 
 **Build with:**
 - Angular 7.1.0
